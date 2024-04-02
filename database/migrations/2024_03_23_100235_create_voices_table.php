@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('voices', function (Blueprint $table) {
             $table->id();
             $table->string('voice');
+            $table->string('voice_name');
             $table->integer('test_id')->unsigned();
             $table->foreignIdFor(User::class);
             $table->enum('status',['checked','unchecked'])->default('unchecked');

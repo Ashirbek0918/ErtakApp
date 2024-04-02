@@ -25,7 +25,7 @@ class VoiceAddRequest extends FormRequest
     {
         return [
             'test_id' => ['required'],
-            'voice' => ['required','mimes:mp3,audio/mp4,audio/aac'],
+            'voice' => ['required',],
             'name' => 'required|string',
             'device_key' => 'required|string',
         ];

@@ -29,6 +29,7 @@ class UserController extends Controller
             Voice::create([
                 'user_id' =>$user->id,
                 'test_id' =>$request->test_id,
+                'voice_name' =>$file_name,
                 'voice'=>$file_url
             ]);
             return response()->json([
@@ -37,7 +38,7 @@ class UserController extends Controller
         }
         return response()->json(['error' =>"Something went wrong"]);   
     }
-
+        
     public function getVoice(UserGetRequest $request){
         $user = User::where('device_key',$request->device_key)->first();
         if($user){
@@ -58,4 +59,5 @@ class UserController extends Controller
         }
         return response()->json(['error' => "Invalid device key"]);
     }
+    
 }
