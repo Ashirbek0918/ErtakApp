@@ -16,7 +16,11 @@ class FeedbacksResource extends JsonResource
     {
         return [
             'id' =>$this->id,
-            'feedback'
+            'feedback' =>$this->feedback,
+            'rating'=>$this->rating,
+            'voice' =>$this->voice->voice,
+            'test_id' =>$this->voice->test_id,
+            'created_at' =>$this->created_at,
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserGetRequest;
 use App\Http\Requests\VoiceAddRequest;
+use App\Http\Resources\FeedbacksResource;
 use App\Http\Resources\UserVoice;
 use App\Models\User;
 use App\Models\Voice;
@@ -56,6 +57,29 @@ class UserController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $collection]);
+        }
+        return response()->json(['error' => "Invalid device key"]);
+    }
+
+    public function feedbacks(UserGetRequest $request){
+        $user = User::where('device_key',$request->device_key)->first();
+        if($user){
+            $feedbacks = $user->feedbacks()->orderBy('created_at', 'desc')->get();
+            if($feedbacks){
+                $collection = [
+                    'device_key' => $request->device_key,
+                    'feedbacks' => []
+                ];
+                foreach($feedbacks as $feedback){
+                    $collection['feedbacks'][] = new FeedbacksResource($feedback);
+                }
+                return response()->json([
+                    'success' => true,
+                    'data' => $collection]);
+            }
+            return response()->json([
+                'message' =>"Sizga hali feedback yuborilmagan "
+            ]);
         }
         return response()->json(['error' => "Invalid device key"]);
     }

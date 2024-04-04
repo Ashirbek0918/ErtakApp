@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddFeedbackRequest;
-use App\Http\Requests\UserGetRequest;
-use App\Http\Resources\UserGetResorce;
+use App\Models\User;
+use App\Models\Voice;
 use App\Models\Employee;
 use App\Models\Feedback;
-use App\Models\User;
-use Google\Rpc\Context\AttributeContext\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserGetRequest;
+use App\Http\Resources\UserGetResorce;
+use App\Http\Requests\AddFeedbackRequest;
+use Google\Rpc\Context\AttributeContext\Response;
 
 class EmployeeController extends Controller
 {
@@ -28,13 +29,14 @@ class EmployeeController extends Controller
 
 
     public function writefeedback(AddFeedbackRequest $request){
+        $user = Voice::find($request->voice_id)->user;
         $feedback = Feedback::create([
+            'user_id'=>$user->id,
             'voice_id' => $request->voice_id,
             'feedback' => $request->feedback,
             'rating' => $request->rating
         ]);
         if($feedback){
-
             return response()->json([
                 'success' =>true,
             ]);

@@ -12,7 +12,7 @@ class Voice extends Model
     protected $guarded = ['id'];
 
 
-    public function feedback(){
+    public function feedbacks(){
         return $this->hasMany(Feedback::class);
     }
 
